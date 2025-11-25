@@ -40,14 +40,11 @@
             text-decoration: none;
             font-size: 20px;
             color: #111;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
             text-align: center;
-            transition: background 0.3s;
+            transition: color 0.3s;
         }
         .name-grid a:hover {
-            background: #eee;
+            color: #555; /* subtle hover effect */
         }
         .highlight {
             background-color: #fffa8c;
@@ -63,64 +60,3 @@
 <div id="names-container"></div>
 
 <script>
-    // Your current names
-    const names = ["FEASE", "HOPES", "PAYSO"];
-
-    // Group names by first letter
-    const grouped = {};
-    names.forEach(name => {
-        const letter = name[0].toUpperCase();
-        if (!grouped[letter]) grouped[letter] = [];
-        grouped[letter].push(name);
-    });
-
-    // Sort letters alphabetically
-    const letters = Object.keys(grouped).sort();
-
-    const container = document.getElementById('names-container');
-
-    letters.forEach(letter => {
-        const groupDiv = document.createElement('div');
-        groupDiv.className = "letter-group";
-
-        // Letter header
-        const header = document.createElement('div');
-        header.className = "letter-header";
-        header.textContent = letter;
-        groupDiv.appendChild(header);
-
-        // Grid of names (3 columns)
-        const grid = document.createElement('div');
-        grid.className = "name-grid";
-
-        grouped[letter].sort().forEach(name => {
-            const link = document.createElement('a');
-            link.href = "tag.html?name=" + name;
-            link.textContent = name;
-            grid.appendChild(link);
-        });
-
-        groupDiv.appendChild(grid);
-        container.appendChild(groupDiv);
-    });
-
-    // Search and highlight functionality
-    const searchInput = document.getElementById('search');
-    searchInput.addEventListener('keyup', function() {
-        const filter = searchInput.value.toUpperCase();
-        const allLinks = document.querySelectorAll('.name-grid a');
-        allLinks.forEach(link => {
-            if (link.textContent.toUpperCase().includes(filter) && filter !== "") {
-                link.style.display = "";
-                link.classList.add("highlight");
-            } else {
-                link.style.display = link.textContent.toUpperCase().includes(filter) ? "" : "none";
-                link.classList.remove("highlight");
-            }
-            if(filter === "") link.classList.remove("highlight");
-        });
-    });
-</script>
-
-</body>
-</html>
