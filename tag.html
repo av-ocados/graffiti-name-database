@@ -6,25 +6,30 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: #111;
-            color: white;
-            margin: 0;
-            padding: 20px;
+            background: #ffffff; /* white background */
+            color: #111;
+            padding: 50px 20px;
             text-align: center;
+        }
+        h1 {
+            font-weight: bold;
+            font-size: 36px;
         }
         img {
             width: 90%;
-            max-width: 500px;
-            border-radius: 10px;
-            border: 2px solid #333;
-            margin-top: 20px;
+            max-width: 600px;
+            margin-top: 30px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
         }
         a {
-            color: #aaa;
-            text-decoration: none;
             display: block;
-            margin-top: 30px;
+            margin-top: 40px;
+            text-decoration: none;
+            color: #111;
+            font-size: 18px;
         }
+        a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -38,10 +43,7 @@
     const params = new URLSearchParams(window.location.search);
     const name = params.get("name");
 
-    // Display name
     document.getElementById("tagName").textContent = name;
-
-    // Load the corresponding photo
     document.getElementById("tagPhoto").src = "photos/" + name + ".jpg";
 </script>
 
