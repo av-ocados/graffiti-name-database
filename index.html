@@ -41,6 +41,9 @@
         .name-list a:hover {
             background: #eee;
         }
+        .highlight {
+            background-color: #fffa8c;
+        }
     </style>
 </head>
 <body>
@@ -64,7 +67,19 @@
         const filter = searchInput.value.toUpperCase();
         for (let i = 0; i < links.length; i++) {
             const txtValue = links[i].textContent || links[i].innerText;
-            links[i].style.display = txtValue.toUpperCase().includes(filter) ? "" : "none";
+            if(txtValue.toUpperCase().includes(filter) && filter !== "") {
+                links[i].style.display = "";
+                links[i].classList.add("highlight");
+            } else {
+                links[i].style.display = txtValue.toUpperCase().includes(filter) ? "" : "none";
+                links[i].classList.remove("highlight");
+            }
+        }
+        // Remove highlight if input is empty
+        if(filter === "") {
+            for(let i = 0; i < links.length; i++){
+                links[i].classList.remove("highlight");
+            }
         }
     });
 </script>
