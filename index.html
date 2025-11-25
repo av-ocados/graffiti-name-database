@@ -1,45 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Graffiti Name Log</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 40px;
-      background: #f4f4f4;
-    }
-    h1 {
-      text-align: center;
-    }
-    .name-card {
-      background: white;
-      padding: 20px;
-      margin: 20px auto;
-      max-width: 600px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    .photo {
-      width: 100%;
-      height: 300px;
-      background: #ddd;
-      border-radius: 8px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #777;
-      font-size: 18px;
-    }
-    .tag-name {
-      font-size: 32px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Graffiti Name Log</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #111;
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 { text-align: center; }
+        .name-list {
+            max-width: 600px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        a {
+            background: #222;
+            padding: 15px;
+            text-decoration: none;
+            color: white;
+            font-size: 22px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #444;
+        }
+        a:hover { background: #333; }
+    </style>
 </head>
 <body>
 
-  <h1>Graffiti Name Log</h1>
+<h1>Graffiti Name Log</h1>
 
-  <div class="name-card
+<div class="name-list">
+    <a href="tag.html?name=FEASE">FEASE</a>
+    <a href="tag.html?name=HOPES">HOPES</a>
+    <a href="tag.html?name=PAYSO">PAYSO</a>
+</div>
+
+</body>
+</html>
