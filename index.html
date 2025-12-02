@@ -9,34 +9,76 @@
             background: #ffffff;
             color: #111;
             padding: 50px 20px;
+            max-width: 900px;
+            margin: auto;
         }
         h1 {
             font-weight: bold;
             font-size: 36px;
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
         }
+
+        /* Tiny Stats */
+        #stats {
+            text-align: center;
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 25px;
+        }
+
+        /* A–Z Navigation */
+        #alphabet-nav {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 18px;
+        }
+        #alphabet-nav a {
+            margin: 0 6px;
+            text-decoration: none;
+            color: #333;
+            transition: color 0.2s;
+        }
+        #alphabet-nav a:hover {
+            color: #000;
+        }
+
         #search {
             display: block;
-            margin: 0 auto 40px auto;
+            margin: 0 auto 20px auto;
             padding: 10px;
             width: 250px;
             font-size: 16px;
         }
 
-        /* Force each group to take full width */
+        /* Random Button */
+        #random-btn {
+            display: block;
+            margin: 0 auto 35px auto;
+            padding: 8px 18px;
+            font-size: 16px;
+            background: #f2f2f2;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        #random-btn:hover {
+            background: #e6e6e6;
+        }
+
         .letter-group {
             margin-bottom: 40px;
             width: 100%;
         }
 
-        /* 6-column tight grid */
+        /* 6-column grid */
         .name-grid {
             display: grid;
             grid-template-columns: repeat(6, auto);
             gap: 6px 14px;
             justify-content: start;
-            width: 100%; /* makes each grid span full width */
+            width: 100%;
         }
 
         .letter-header {
@@ -62,7 +104,19 @@
             font-weight: bold;
         }
 
-        /* Responsive layout for smaller screens */
+        /* Name of the Day */
+        #name-of-day {
+            text-align: center;
+            font-size: 20px;
+            margin-bottom: 25px;
+        }
+        #name-of-day a {
+            text-decoration: none;
+            color: #111;
+            font-weight: bold;
+        }
+
+        /* Responsive */
         @media (max-width: 900px) {
             .name-grid {
                 grid-template-columns: repeat(3, auto);
@@ -79,18 +133,49 @@
 
 <h1>Graffiti Name Log</h1>
 
+<!-- Tiny Stats -->
+<div id="stats"></div>
+
+<!-- Name of the Day -->
+<div id="name-of-day"></div>
+
+<!-- A–Z Navigation -->
+<div id="alphabet-nav"></div>
+
+<!-- Search -->
 <input type="text" id="search" placeholder="Search names...">
 
+<!-- Random Button -->
+<button id="random-btn">Random Name</button>
+
+<!-- Main Container -->
 <div id="names-container"></div>
 
 <script>
     const names = [
-        "FEASE", "HOPES", "PAYSO", "WEKMAN", 
+        "FEASE", "HOPES", "PAYSO", "WEKMAN",
         "FEIN", "WOODY", "OUCH"
         // Add more names here
     ];
 
-    // Group names by first letter
+    /* Stats */
+    document.getElementById("stats").textContent =
+        names.length + " names logged";
+
+    /* Name of the Day */
+    const dayIndex = Math.floor((Date.now() / 86400000) % names.length);
+    const nameOfDay = names[dayIndex];
+    document.getElementById("name-of-day").innerHTML =
+        `Name of the Day: <a href="tag.html?name=${nameOfDay}">${nameOfDay}</a>`;
+
+    /* A–Z Navigation */
+    const alphabet = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
+    const alphabetNav = document.getElementById("alphabet-nav");
+    alphabet.forEach(letter => {
+        alphabetNav.innerHTML += `<a href="#${letter}">${letter}</a>`;
+    });
+
+    /* Group names by letter */
     const grouped = {};
     names.forEach(name => {
         const letter = name[0].toUpperCase();
@@ -98,21 +183,20 @@
         grouped[letter].push(name);
     });
 
-    // Sort letters alphabetically
     const letters = Object.keys(grouped).sort();
     const container = document.getElementById('names-container');
 
+    /* Build letter groups */
     letters.forEach(letter => {
         const groupDiv = document.createElement('div');
         groupDiv.className = "letter-group";
+        groupDiv.id = letter;
 
-        // Letter header
         const header = document.createElement('div');
         header.className = "letter-header";
         header.textContent = letter;
         groupDiv.appendChild(header);
 
-        // Name grid
         const grid = document.createElement('div');
         grid.className = "name-grid";
 
@@ -127,7 +211,13 @@
         container.appendChild(groupDiv);
     });
 
-    // Search + highlight + hide empty groups
+    /* Random button */
+    document.getElementById("random-btn").addEventListener("click", () => {
+        const random = names[Math.floor(Math.random() * names.length)];
+        window.location.href = "tag.html?name=" + random;
+    });
+
+    /* Search + highlight */
     const searchInput = document.getElementById('search');
     searchInput.addEventListener('keyup', function() {
         const filter = searchInput.value.toUpperCase();
@@ -154,7 +244,6 @@
                 }
             });
 
-            // Hide entire letter group if it has zero matches
             group.style.display = hasVisible ? "" : "none";
         });
     });
