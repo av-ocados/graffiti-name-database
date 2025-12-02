@@ -23,30 +23,34 @@
             width: 250px;
             font-size: 16px;
         }
+
+        /* Force each group to take full width */
         .letter-group {
             margin-bottom: 40px;
+            width: 100%;
         }
+
+        /* 6-column tight grid */
+        .name-grid {
+            display: grid;
+            grid-template-columns: repeat(6, auto);
+            gap: 6px 14px;
+            justify-content: start;
+            width: 100%; /* makes each grid span full width */
+        }
+
         .letter-header {
             font-weight: bold;
             font-size: 24px;
             margin-bottom: 10px;
         }
 
-        /* 6 names per row, aligned tight */
-        .name-grid {
-            display: grid;
-            grid-template-columns: repeat(6, auto);
-            gap: 6px 14px;
-            justify-content: start;
-        }
-
         .name-grid a {
             text-decoration: none;
             font-size: 20px;
             color: #111;
-            text-align: left;
             transition: color 0.3s;
-            white-space: nowrap; /* keeps names from breaking weirdly */
+            white-space: nowrap;
         }
 
         .name-grid a:hover {
@@ -58,7 +62,7 @@
             font-weight: bold;
         }
 
-        /* Responsive columns */
+        /* Responsive layout for smaller screens */
         @media (max-width: 900px) {
             .name-grid {
                 grid-template-columns: repeat(3, auto);
@@ -80,8 +84,11 @@
 <div id="names-container"></div>
 
 <script>
-    const names = ["FEASE", "HOPES", "PAYSO", "WEKMAN", "FEIN", "WOODY", "OUCH"]; 
-    // Add more names here as you expand the database
+    const names = [
+        "FEASE", "HOPES", "PAYSO", "WEKMAN", 
+        "FEIN", "WOODY", "OUCH"
+        // Add more names here
+    ];
 
     // Group names by first letter
     const grouped = {};
@@ -93,7 +100,6 @@
 
     // Sort letters alphabetically
     const letters = Object.keys(grouped).sort();
-
     const container = document.getElementById('names-container');
 
     letters.forEach(letter => {
@@ -106,7 +112,7 @@
         header.textContent = letter;
         groupDiv.appendChild(header);
 
-        // Grid of names
+        // Name grid
         const grid = document.createElement('div');
         grid.className = "name-grid";
 
@@ -148,7 +154,7 @@
                 }
             });
 
-            // Hide/show whole letter group
+            // Hide entire letter group if it has zero matches
             group.style.display = hasVisible ? "" : "none";
         });
     });
