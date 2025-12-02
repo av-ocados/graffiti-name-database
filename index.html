@@ -31,21 +31,28 @@
             font-size: 24px;
             margin-bottom: 10px;
         }
+
+        /* 6 names per row, aligned tight */
         .name-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3 columns default */
-            gap: 10px;
+            grid-template-columns: repeat(6, auto);
+            gap: 6px 14px;
+            justify-content: start;
         }
+
         .name-grid a {
             text-decoration: none;
             font-size: 20px;
             color: #111;
-            text-align: center;
+            text-align: left;
             transition: color 0.3s;
+            white-space: nowrap; /* keeps names from breaking weirdly */
         }
+
         .name-grid a:hover {
             color: #555;
         }
+
         .highlight {
             color: #ff0000;
             font-weight: bold;
@@ -54,12 +61,12 @@
         /* Responsive columns */
         @media (max-width: 900px) {
             .name-grid {
-                grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
+                grid-template-columns: repeat(3, auto);
             }
         }
         @media (max-width: 600px) {
             .name-grid {
-                grid-template-columns: 1fr; /* 1 column on small screens */
+                grid-template-columns: repeat(2, auto);
             }
         }
     </style>
@@ -73,7 +80,8 @@
 <div id="names-container"></div>
 
 <script>
-    const names = ["FEASE", "HOPES", "PAYSO", "WEKMAN", "FEIN", "WOODY", "OUCH"]; // Your current names
+    const names = ["FEASE", "HOPES", "PAYSO", "WEKMAN", "FEIN", "WOODY", "OUCH"]; 
+    // Add more names here as you expand the database
 
     // Group names by first letter
     const grouped = {};
@@ -98,7 +106,7 @@
         header.textContent = letter;
         groupDiv.appendChild(header);
 
-        // Grid of names (3 columns default)
+        // Grid of names
         const grid = document.createElement('div');
         grid.className = "name-grid";
 
@@ -113,20 +121,35 @@
         container.appendChild(groupDiv);
     });
 
-    // Search and highlight
+    // Search + highlight + hide empty groups
     const searchInput = document.getElementById('search');
     searchInput.addEventListener('keyup', function() {
         const filter = searchInput.value.toUpperCase();
-        const allLinks = document.querySelectorAll('.name-grid a');
-        allLinks.forEach(link => {
-            if(link.textContent.toUpperCase().includes(filter) && filter !== "") {
-                link.style.display = "";
-                link.classList.add("highlight");
-            } else {
-                link.style.display = link.textContent.toUpperCase().includes(filter) ? "" : "none";
-                link.classList.remove("highlight");
-            }
-            if(filter === "") link.classList.remove("highlight");
+        const allGroups = document.querySelectorAll('.letter-group');
+
+        allGroups.forEach(group => {
+            const links = group.querySelectorAll('.name-grid a');
+            let hasVisible = false;
+
+            links.forEach(link => {
+                const match = link.textContent.toUpperCase().includes(filter);
+
+                if (filter !== "" && match) {
+                    link.style.display = "";
+                    link.classList.add("highlight");
+                    hasVisible = true;
+                } else if (filter === "") {
+                    link.style.display = "";
+                    link.classList.remove("highlight");
+                    hasVisible = true;
+                } else {
+                    link.style.display = "none";
+                    link.classList.remove("highlight");
+                }
+            });
+
+            // Hide/show whole letter group
+            group.style.display = hasVisible ? "" : "none";
         });
     });
 </script>
